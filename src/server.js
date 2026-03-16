@@ -14,14 +14,14 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 
-// 🔹 Conexão com MongoDB
+
 mongoose.connect(
-  process.env.MONGO_URL || 'mongodb://localhost:27017/blog'
+  process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/blog'
 )
   .then(() => console.log('MongoDB conectado com sucesso'))
   .catch(err => console.error('Erro ao conectar no MongoDB:', err));
 
-// 🔹 Schema e Model
+
 const PostSchema = new mongoose.Schema(
   {
     titulo: String,
@@ -33,16 +33,11 @@ const PostSchema = new mongoose.Schema(
 
 const Post = mongoose.model('Post', PostSchema);
 
-// 🔹 Rota teste
+
 app.get('/', (req, res) => {
   res.send('API do Blog rodando 🚀');
 });
 
-// ===============================
-// 📌 ENDPOINTS REST
-// ===============================
-
-// 🔹 GET /posts — listar todos
 app.get('/posts', async (req, res) => {
   try {
     const posts = await Post.find();
@@ -52,7 +47,7 @@ app.get('/posts', async (req, res) => {
   }
 });
 
-// 🔹 GET /posts/:id — post específico
+
 app.get('/posts/:id', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -67,7 +62,7 @@ app.get('/posts/:id', async (req, res) => {
   }
 });
 
-// 🔹 POST /posts — criar post
+
 app.post('/posts', async (req, res) => {
   try {
     const post = new Post(req.body);
@@ -78,7 +73,7 @@ app.post('/posts', async (req, res) => {
   }
 });
 
-// 🔹 PUT /posts/:id — editar post
+
 app.put('/posts/:id', async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
@@ -97,7 +92,7 @@ app.put('/posts/:id', async (req, res) => {
   }
 });
 
-// 🔹 DELETE /posts/:id — excluir post
+
 app.delete('/posts/:id', async (req, res) => {
   try {
     const post = await Post.findByIdAndDelete(req.params.id);
@@ -112,7 +107,7 @@ app.delete('/posts/:id', async (req, res) => {
   }
 });
 
-// 🔹 GET /posts/search?q=texto — buscar posts
+
 app.get('/posts/search', async (req, res) => {
   const { q } = req.query;
 
@@ -130,7 +125,7 @@ app.get('/posts/search', async (req, res) => {
   }
 });
 
-// 🔹 Servidor
-app.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
+
+app.listen(4000, () => {
+  console.log('Servidor rodando na porta 4000');
 });
